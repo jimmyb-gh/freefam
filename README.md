@@ -32,20 +32,33 @@ The general procedure for a typical installation is as follows:
 A typical template for later FreeBSD versions is shown below.
 This version does not use floppy disks for booting and has only one hard disk.
 Early versions require two hard disks and one or two floppy disks for installation.
+
 As a convention, the last three octets of the MAC address enumerate the FreeBSD verion number.
+The first three octets are available for any use and *should* be aligned with "Locally Administered Addresses".
+These follow this set of addresses:
+````
+x2-xx-xx-xx-xx-xx
+x6-xx-xx-xx-xx-xx
+xA-xx-xx-xx-xx-xx
+xE-xx-xx-xx-xx-xx
+````
+where 'x' can be any hexadecimal digit.
+See https://serverfault.com/questions/40712/what-range-of-mac-addresses-can-i-safely-use-for-my-virtual-machines for notes on using "Locally Administered Addresses."
+
+
 ````
 /usr/local/bin/qemu-system-x86_64  -monitor stdio \
   -cpu qemu64 \
   -vga std \
   -m 4096 \
   -smp 4 \
-  -drive file=./ISO/fbsd09_0.iso,index=2,media=cdrom \
+  -drive file=./ISO/fbsd14_0.iso,index=2,media=cdrom \
   -boot order=cda,menu=on \
   -blockdev driver=file,node-name=myfile,filename=./fbsd14_0.qcow2 \
   -blockdev driver=qcow2,node-name=myqcow2,file=myfile,cache-size=16777216 \
   -device virtio-blk-pci,drive=myqcow2,bootindex=1  \
   -netdev tap,id=nd0,ifname=tap0,script=no,downscript=no,br=bridge0 \
-  -device virtio-net-pci,netdev=nd0,mac=52:54:6c:14:01:00 \
+  -device virtio-net-pci,netdev=nd0,mac=56:00:6c:14:00:00 \
   -name \"fbsd14.0\"
 ````
 There are many other details noted in each installation file.
@@ -54,9 +67,9 @@ There are many other details noted in each installation file.
 The simplest layout is ordering the directories for each version as two digit major and minor numbers.
 Example:
 ````
-09.00/
--rw-r--r--   1 user group       1376 Oct  2 09:10 f.sh
--rw-r--r--   1 user group 2148073472 Oct  8 20:14 fbsd09_0.qcow2
+14.00/
+-rw-r--r--   1 user group       1376 Oct  2 09:10 f14_0.sh
+-rw-r--r--   1 user group 2148073472 Oct  8 20:14 fbsd14_0.qcow2
 ````
 There are some versions that require additional numbering.
 In this script, and the other scripts in this repo, the ```tap(4)``` is always **tap0**.
