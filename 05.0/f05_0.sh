@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# f05.0.sh
+# f05_0.sh
 #
 /usr/local/bin/qemu-system-x86_64  -monitor stdio \
   -cpu qemu64 \

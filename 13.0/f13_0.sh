@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# f13.0.sh
+# f13_0.sh
 #
 /usr/local/bin/qemu-system-x86_64  -monitor stdio \
   -cpu qemu64 \

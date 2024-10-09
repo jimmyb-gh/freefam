@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# f08.0.sh
+# f08_0.sh
 #
 /usr/local/bin/qemu-system-x86_64  -monitor stdio \
   -cpu qemu64 \
