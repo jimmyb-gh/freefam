@@ -77,10 +77,12 @@ Change as desired to run multiple versions of FreeBSD simultaneously.
 
 ## mkbr.sh script
 Below is a sample run of the **mkbr.sh** script.
-This run creates one bridge, two taps and adds the host interface (em0) to the bridge.
+This run creates one bridge with two taps and adds the host interface (em0) to the bridge.
 See the script for additional details.
 ````
 $ sudo  /bin/sh  mkbr.sh reset bridge0 tap0 tap1 em0
 ````
+## Understanding QEMU blockdev/device Constructions
+The ```qemu(1)``` section titled **Block device options** describes the use of blockdev and device options.
 
 
