@@ -1,30 +1,39 @@
 #!/bin/sh
 #
 # 14.0
-#
-# -device and -blockev from qemu(1)
-#
-#  The most explicit way to describe disks is to use a combination of
-#  -device to specify the hardware device and -blockdev to describe the
-#  backend. The device defines what the guest sees and the backend
-#  describes how QEMU handles the data. It is the only guaranteed stable
-#  interface for describing block devices and as such is recommended for
-#  management tools and scripting.
-#
+# See notes below.
 
-
-/usr/local/bin/qemu-system-x86_64  -monitor stdio \
+/usr/local/bin/qemu-system-x86_64 \
+  -monitor stdio \
   -cpu qemu64 \
   -vga std \
   -m 4096 \
   -smp 4   \
-  -cdrom ../../ISO/fbsd14_0.iso \
+  -cdrom ./fbsd14_0.iso \
   -boot order=cd,menu=on \
   -blockdev driver=file,node-name=myfile,filename=./fbsd14_0.qcow2 \
   -blockdev driver=qcow2,node-name=myqcow2,file=myfile,cache-size=16777216 \
   -device virtio-blk-pci,drive=myqcow2,bootindex=1  \
   -netdev tap,id=nd0,ifname=tap0,script=no,downscript=no,br=bridge0 \
-  -device virtio-net-pci,netdev=nd0,mac=52:54:6c:65:14:00 \
+  -device virtio-net-pci,netdev=nd0,mac=52:54:6c:14:00:00 \
   -name \"fbsd14.0\"
 
 
+# This is a standard install using:
+#   - a cdrom line with a link to an ISO located elsewhere.
+#   - blockdev/device options for defining a hard disk
+#   - netdev/device options for using a tap(4) device.
+# Should work with any QEMU version supporting blockdev/device options.
+# Must be run under sudo(8).
+# Use -runas or -runwith if you take extra precautions for security.
+# There are no network setup/takedown scripts.
+# Uses tap0 by default.
+#
+# To use:
+# 1. Create a to the downloaded ISO.
+#    ln -s <filepath>/FreeBSD-14.0-RELEASE-<arch>-<bootfile>.iso  fbsd14_0.iso
+# 2. Create a 2G hard disk image with qemu-img(1).
+#    qemu-image create -f qcow2 -o preallocation=full fbsd14_0.qcow2 2G
+# 3. Run script under sudo(8).
+#    sudo /bin/sh f14_0.sh
+# 4. Finish installation.
