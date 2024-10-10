@@ -83,7 +83,7 @@ ISO/
     -rw-r--r--  1 jpb jpb 4541104128 Oct  1 17:05 FreeBSD-14.0-RELEASE-amd64-dvd1.iso
 ````
 There are some versions that require additional minor and sub-minor numbering.
-In this script, and the other scripts in this repo, the ```tap(4)``` is always **tap0**.
+In this script, and the other scripts in this repo, the ```tap(4)``` interface is always **tap0**.
 Change as desired to run multiple versions of FreeBSD simultaneously.
 
 ## mkbr.sh script

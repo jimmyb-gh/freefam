@@ -1,25 +1,30 @@
 #!/bin/sh
 #
-# f04_0.sh
+# f04_1.sh
 #
-/usr/local/bin/qemu-system-x86_64  -monitor stdio \
-  -cpu qemu64 \
+
+/usr/local/bin/qemu-system-i386  -monitor stdio \
+  -cpu qemu32 \
+  -machine pc \
   -vga std \
-  -m 4096 \
-  -smp 4 \
-  -drive file=./fbsd04_0.iso,index=2,media=cdrom \
-  -boot order=cda,menu=on \
-  -blockdev driver=file,filename=./fbsd04_0.qcow2,node-name=myfile \
-  -blockdev driver=qcow2,file=myfile,node-name=myqcow2,cache-size=16777216 \
-  -device virtio-blk-pci,drive=myqcow2,bootindex=1  \
+  -m 1024 \
+  -drive file=./fbsd04_1.iso,index=2,media=cdrom \
+  -boot order=cd,menu=on \
+  -drive file=./fbsd04_1.qcow2,if=ide,index=0,media=disk,cache=writeback,format=qcow2 \
   -netdev tap,id=nd0,ifname=tap0,script=no,downscript=no,br=bridge0 \
-  -device virtio-net-pci,netdev=nd0,mac=56:00:00:04:00:00 \
-  -name \"fbsd04.0\"
+  -device ne2k_pci,netdev=nd0,mac=52:54:6c:65:04:01 \
+  -name \"fbsd04.1\"
+
 
 # -runas user \           <--- for QEMU version up through 9.0
 # -run-with user=name \   <--- for QEMU version 9.1 and up
 
-# This is a standard install using:
+# NOTE:  NOT a standard install.
+#        See the file Notes.txt for required modifications to the 
+#        standard template.
+# ----------------------------------------------------------------
+#
+#   Does boot from CDROM.
 #   - a cdrom line using a link to an ISO located elsewhere.
 #   - blockdev/device options for defining a hard disk
 #   - netdev/device options for using a tap(4) device.
