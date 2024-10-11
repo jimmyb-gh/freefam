@@ -1,0 +1,110 @@
+Changes for 3.2
+--------------------------
+
+Make sure the bridge and tap devices are up.  Use mkbr.sh on the host.
+
+Use qemu-system-i386.
+
+Use -cpu qemu32.
+
+Use -machine pc. (alias of pc-1440rx-9.1)
+
+Use -m 1024.
+
+Remove -smp 4.
+
+Remove 'a' from boot order spec.
+
+Blockdev+device results in no  disk drive found (ada, etc.).
+Use -drive specification for disk and cdrom.
+Does boot from CDROM.  
+
+Use ne2k_pci for network.
+
+Remove CD after initial install.
+
+Manual kernel config with visual mode.  See below.
+
+-----------------------------------------------------------------------
+Start kernel configuration in full screen mode.
+
+Active Drivers-----------------------------DevId----IRQ---Port--------
+
+Storage:
+  - IDE/ESDI/FMF disk controller            wdc0     14   0x1f0
+  - Floppy disk controller                  fdc0      6   0x3f0
+Network:
+  - NE1000,NE2000,3C503,WD/SMC80xx Ether    ed0      10   0x280
+Communications:
+  - Parallel Port chipset                   ppc0      7
+  - 8250/16450/16550 Serial port            sio0      4   0x3f8
+  - 8250/16450/16550 Serial port            sio1      3   0x2f8
+Input:
+  - Keyboard                                atkbd0    1
+  - PS/2 Mouse                              psm0     12
+  - Syscons console driver                  sc0
+Multimedia:
+PCI:
+  - Include all
+Miscellaneous:
+  - Math coprocessor                        nxp0     13   0xf0
+
+Everything else is disabled
+-----------------------------------------------------------------------
+
+Disk is wd0.  Use entire disk.  Set it bootable!
+
+Set up partitions as:
+
+ad0s1a   /            500MB  UFS  Y
+ad0s1b   swap         100MB  SWAP
+ad0s1e   /usr         800MB  UFS  Y
+ad0s1f   /var         300MB  UFS  Y
+ad0s1g   /tmp         300MB  UFS  Y
+
+Select to install from the CDROM.
+
+
+Select "Yes" or "No" for crypto choice.
+
+Select "All" for distributions.
+
+Select Yes or No for crypto.
+
+Select Yes or No for ports collection.
+Ports takes a while to install :-/
+
+
+Install from the CDROM 
+
+For XF86 Setup, configure the mouse for SysMouse on /dev/psm0.
+Click Apply and Done.
+
+Packages for Enlightenment are on the CDROM.
+
+
+Set up networking.
+3.2 did not have a DHCP option.  Set up ed0 interface manually.
+
+Set up user, add to wheel group.
+
+
+
+Try configuring X Windows with XF86Setup graphical mode.
+
+Note on X Windows - use ctl-alt-backspace to exit the server
+if needed.
+
+
+Finish install, reboot, and test.
+
+System should show the Boot Manager on reboot.
+The stored kernel configuration will be applied to the reboot.
+
+May have to add a default rouute.
+
+NOTE!!  There is ssh or scp installed.  It's also likely that
+any communication with modern SSL encrypted systems will fail
+because of lack of similar cipher capabilities (these are too old.)
+
+

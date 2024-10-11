@@ -1,25 +1,53 @@
 #!/bin/sh
 #
-# f03_0.sh
+# f03_2.sh
 #
-/usr/local/bin/qemu-system-x86_64  -monitor stdio \
-  -cpu qemu64 \
+#/usr/local/bin/qemu-system-x86_64  -monitor stdio \
+#  -cpu qemu64 \
+#  -vga std \
+#  -m 4096 \
+#  -smp 4 \
+#  -drive file=./fbsd03_0.iso,index=2,media=cdrom \
+#  -boot order=cda,menu=on \
+#  -blockdev driver=file,filename=./fbsd03_0.qcow2,node-name=myfile \
+#  -blockdev driver=qcow2,file=myfile,node-name=myqcow2,cache-size=16777216 \
+#  -device virtio-blk-pci,drive=myqcow2,bootindex=1  \
+#  -netdev tap,id=nd0,ifname=tap0,script=no,downscript=no,br=bridge0 \
+#  -device virtio-net-pci,netdev=nd0,mac=56:00:00:03:00:00 \
+#  -name \"fbsd03.0\"
+#
+
+
+
+/usr/local/bin/qemu-system-i386  -monitor stdio \
+  -cpu qemu32 \
+  -machine pc \
   -vga std \
-  -m 4096 \
-  -smp 4 \
-  -drive file=./fbsd03_0.iso,index=2,media=cdrom \
-  -boot order=cda,menu=on \
-  -blockdev driver=file,filename=./fbsd03_0.qcow2,node-name=myfile \
-  -blockdev driver=qcow2,file=myfile,node-name=myqcow2,cache-size=16777216 \
-  -device virtio-blk-pci,drive=myqcow2,bootindex=1  \
+  -m 1024 \
+  -drive file=./fbsd03_2.iso,index=1,id=cdrom0,media=cdrom \
+  -boot order=cd,menu=on \
+  -drive file=./fbsd03_2.img,if=ide,index=0,media=disk,cache=writeback,format=raw \
   -netdev tap,id=nd0,ifname=tap0,script=no,downscript=no,br=bridge0 \
-  -device virtio-net-pci,netdev=nd0,mac=56:00:00:03:00:00 \
-  -name \"fbsd03.0\"
+  -device ne2k_pci,netdev=nd0,mac=52:54:6c:65:03:02 \
+  -name \"fbsd03.2\"
+
+
+
+
+
+
+
+
+
+
 
 # -runas user \           <--- for QEMU version up through 9.0
 # -run-with user=name \   <--- for QEMU version 9.1 and up
 
-# This is a standard install using:
+# NOTE:  This is NOT a standard install.
+# See the Notex.txt file.
+# An updated command line is used above.
+#
 #   - a cdrom line using a link to an ISO located elsewhere.
 #   - blockdev/device options for defining a hard disk
 #   - netdev/device options for using a tap(4) device.
